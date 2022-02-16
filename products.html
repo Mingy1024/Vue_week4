@@ -62,7 +62,7 @@
                     </tr>
                 </tbody>
             </table>
-            <pagination :pages="pagination" @get-product="getData"></pagination>
+            <pagination :pages="pagination" @emit-pages="getData"></pagination>
         </div>
         <!-- Modal -->
         <div id="productModal" ref="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
