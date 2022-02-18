@@ -76,25 +76,6 @@ const app = createApp({
       }
     },
 
-    // 新增 & 編輯產品
-    updateProduct() {
-      let url = `${apiUrl}/api/${apiPath}/admin/product`;
-      let http = "post";
-
-      if (!this.isNew) {
-        url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
-        http = "put";
-      }
-      axios[http](url, { data: this.tempProduct })
-        .then((res) => {
-          alert(res.data.message);
-          ProductModal.hide();
-          this.getData();
-        })
-        .catch((err) => {
-          alert(err.data.message);
-        });
-    },
 
     // 刪除產品
     delProduct() {
@@ -134,6 +115,32 @@ const app = createApp({
     );
   },
 });
+
+// 產品新增 & 編輯元件
+app.component('productModal',{
+  props:['tempProduct','isNew'],
+  template:'#productModalTemplate',
+  methods:{
+    updateProduct() {
+      let url = `${apiUrl}/api/${apiPath}/admin/product`;
+      let http = "post";
+
+      if (!this.isNew) {
+        url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
+        http = "put";
+      }
+      axios[http](url, { data: this.tempProduct })
+        .then((res) => {
+          alert(res.data.message);
+          ProductModal.hide();
+          this.$emit('get-data');
+        })
+        .catch((err) => {
+          alert(err.data.message);
+        });
+    },
+  }
+})
 
 //掛載
 app.mount("#app");
