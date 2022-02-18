@@ -75,23 +75,6 @@ const app = createApp({
         console.log(this.tempProduct);
       }
     },
-
-
-    // 刪除產品
-    delProduct() {
-      const url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
-
-      axios
-        .delete(url)
-        .then((res) => {
-          alert(res.data.message);
-          delProductModal.hide();
-          this.getData();
-        })
-        .catch((err) => {
-          alert(err.data.message);
-        });
-    },
   },
   mounted() {
     // 將token 存到 Cookie
@@ -133,6 +116,27 @@ app.component('productModal',{
         .then((res) => {
           alert(res.data.message);
           ProductModal.hide();
+          this.$emit('get-data');
+        })
+        .catch((err) => {
+          alert(err.data.message);
+        });
+    },
+  }
+})
+
+// 產品刪除元件
+app.component('delProductModal',{
+  props:['tempProduct'],
+  template:'#delProductModalTemplate',
+  methods:{
+     delProduct() {
+      const url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
+      axios
+        .delete(url)
+        .then((res) => {
+          alert(res.data.message);
+          delProductModal.hide();
           this.$emit('get-data');
         })
         .catch((err) => {
